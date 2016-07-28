@@ -25,6 +25,7 @@ export default (app) => {
     }
     masterKey = getKey();
     debug('we have a new master', masterKey);
+    state.reset();
     res.send(`You da master now! ${masterKey}`);
     setTimeout(resetKey, RESET_AFTER);
   });
@@ -46,15 +47,16 @@ export default (app) => {
     res.send(state.get());
   });
 
-  app.post('/api/master/state/stage', (req, res) => {
-    state.setStage(req.body.stage);
+  app.post('/api/master/state', (req, res) => {
+    if (req.body.stage) {
+      state.setStage(req.body.stage);
+    }
     res.send(state.get());
   });
 
   app.delete('/api/master/state', (req, res) => {
     state.reset();
-    res.send(`Reset!
-      ${state.get()}
-    `);
+    resetKey();
+    res.send(state.get());
   });
 };
