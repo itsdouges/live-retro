@@ -17,9 +17,11 @@ master(app);
 participant(app);
 results(app);
 
-const INDEX_HTML = 'src/client/dist/index.html';
-app.use('/', express.static(INDEX_HTML));
-app.use('/master', express.static(INDEX_HTML));
+app.use('/master', express.static('src/client/dist/index.html'));
+app.use('/', express.static('src/client/dist'));
+app.get('*', (req, res) => {
+  res.redirect('/');
+});
 
 app.listen(process.env.PORT || 3000, () => {
   debug('up');
