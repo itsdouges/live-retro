@@ -3,7 +3,6 @@ export const STAGE_VOTE = 'vote';
 export const STAGE_RESULTS = 'results';
 
 const state = {};
-reset(); // eslint-disable-line no-use-before-define
 
 function get() {
   return state;
@@ -46,6 +45,11 @@ function getSubmissions() {
   return { submissions };
 }
 
+function getResults() {
+  const { submissions } = state;
+  return { submissions };
+}
+
 function reset() {
   state.stage = STAGE_SUBMIT;
   state.submissions = {};
@@ -59,4 +63,5 @@ export default {
   addSubmission,
   voteSubmission,
   submissions: getSubmissions,
+  results: getResults,
 };
