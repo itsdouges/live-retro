@@ -1,2 +1,8 @@
 ---
 extends: eslint-config-mi9
+settings:
+  import/resolver:
+    node:
+      moduleDirectory:
+        - node_modules
+        - .

@@ -1,11 +1,14 @@
 import express from 'express';
 
+import master from 'src/server/master';
+import participant from 'src/server/participant';
+
+const debug = require('debug')('retro:server');
 const app = express();
 
-app.get('/', (req, res) => {
-  res.send('Hello');
-});
+master(app);
+participant(app);
 
 app.listen(3000, () => {
-  console.log('up');
+  debug('up');
 });
