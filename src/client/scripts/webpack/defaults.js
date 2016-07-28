@@ -30,7 +30,7 @@ function getDefaultModules() {
         loader: `style!${loader('css', ...cssLoaderOpts)}!less`,
       },
       {
-        test: /\.(png|jpg|gif|woff|woff2)$/,
+        test: /\.(png|jpg|gif|woff|woff2|otf)$/,
         loader: 'url-loader?limit=8192',
       },
       {

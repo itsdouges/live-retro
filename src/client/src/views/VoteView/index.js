@@ -4,6 +4,8 @@ import Submissions from '../../components/Submissions';
 import FullScreenMessage from '../../components/FullScreenMessage';
 import { get, post } from 'axios';
 import config from '../../../scripts/config';
+import bgNeutral from '../../assets/images/bg-neutral.png';
+import tick from '../../assets/images/tick.svg';
 
 const voteLimit = 5;
 
@@ -23,14 +25,16 @@ export default class VoteView extends Component {
       voteCount: 0,
       votes: {},
       submissions: [],
+      finishedVoting: false,
     };
   }
 
   componentWillMount() {
-    this.context.setBackground('red');
+    this.context.setBackground(`url(${bgNeutral})`);
 
     get(`${config.api}participant/submissions`)
       .then(({ data }) => {
+        console.log(data);
         this.setState({
           ...this.state,
           submissions: data.submissions,
@@ -74,7 +78,11 @@ export default class VoteView extends Component {
   render() {
     return (
       <span>
-        <FullScreenMessage background="white" text="Your votes have been submitted" shown={this.state.finishedVoting} />
+        <FullScreenMessage
+          background="white"
+          text="Your votes have been submitted" shown={this.state.finishedVoting}
+          icon={tick}
+        />
         <TitleCard text={`Vote on the top ${voteLimit} topics you want to discuss...`} />
         <Submissions onItemClick={this.vote} items={this.state.submissions} votes={this.state.votes} />
       </span>

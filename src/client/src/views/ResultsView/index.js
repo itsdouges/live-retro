@@ -3,6 +3,7 @@ import TitleCard from '../../components/TitleCard';
 import Submissions from '../../components/Submissions';
 import { get } from 'axios';
 import config from '../../../scripts/config';
+import bgPositive from '../../assets/images/bg-positive.png';
 
 export default class ResultsView extends Component {
   static contextTypes = {
@@ -17,7 +18,7 @@ export default class ResultsView extends Component {
   }
 
   componentWillMount() {
-    this.context.setBackground('purple');
+    this.context.setBackground(`url(${bgPositive})`);
 
     get(`${config.api}results`)
       .then(({ data }) => {

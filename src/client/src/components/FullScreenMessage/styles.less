@@ -6,13 +6,23 @@
   bottom: 0;
   left: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   transition: opacity 0.2s;
   pointer-events: none;
+  border-radius: 6px;
+  font-size: 1.5em;
+  padding: 30px;
 }
 
 .visible {
   opacity: 1;
   pointer-events: all;
+}
+
+.icon {
+  margin-top: 20px;
+  width: 125px;
+  height: 125px;
 }

@@ -1,5 +1,6 @@
 import { Component, PropTypes } from 'react';
 import styles from './style.less';
+import bgNeutral from '../../assets/images/bg-neutral.png';
 
 export default class App extends Component {
   static propTypes = {
@@ -13,7 +14,7 @@ export default class App extends Component {
   constructor() {
     super();
     this.state = {
-      background: 'yellow',
+      background: `url(${bgNeutral})`,
     };
   }
 
@@ -38,7 +39,9 @@ export default class App extends Component {
         }}
         className={styles.container}
       >
-        {this.props.children}
+        <div className={styles.innerContainer}>
+          {this.props.children}
+        </div>
       </div>
     );
   }

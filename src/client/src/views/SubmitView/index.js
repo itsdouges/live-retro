@@ -5,17 +5,32 @@ import Button from '../../components/Button';
 import styles from './styles.less';
 import { post } from 'axios';
 import config from '../../../scripts/config';
+import bgNeutral from '../../assets/images/bg-neutral.png';
+import bgPositive from '../../assets/images/bg-positive.png';
+import bgNegative from '../../assets/images/bg-negative.png';
+import TitleCard from '../../components/TitleCard';
+
+const imageMapping = {
+  positive: bgPositive,
+  negative: bgNegative,
+};
 
 const colourMapping = {
-  1: 'yellow',
-  [-1]: 'blue',
+  positive: '#3bb7be',
+  negative: '#f89965',
+};
+
+const placeHolderMapping = {
+  positive: 'Retro app was awesome... ;-)',
+  negative: 'Hackathon went by too fast !!',
 };
 
 const defaultState = {
-  mood: 0,
+  mood: 'neutral',
   readyToSubmit: false,
   selectingMood: true,
   submission: '',
+  starterText: 'What feedback do you feel like?',
 };
 
 export default class SubmitView extends Component {
@@ -29,7 +44,11 @@ export default class SubmitView extends Component {
   }
 
   componentWillMount() {
-    this.context.setBackground('gray');
+    this.setNeutralBackground();
+  }
+
+  setNeutralBackground() {
+    this.context.setBackground(`url(${bgNeutral})`);
   }
 
   setMood = (mood) => {
@@ -39,7 +58,7 @@ export default class SubmitView extends Component {
       mood,
     });
 
-    this.context.setBackground(colourMapping[mood]);
+    this.context.setBackground(`url(${imageMapping[mood]})`);
   }
 
   textChanged = ({ target: { value } }) => {
@@ -55,45 +74,67 @@ export default class SubmitView extends Component {
 
     post(`${config.api}participant/submissions`, {
       submission: this.state.submission,
-      mood: this.state.mood,
+      mood: this.state.mood === 'positive' ? 1 : -1,
     })
     .then(() => {
       console.log('subbmitted');
     });
 
-    this.setState(defaultState);
-    this.context.setBackground('gray');
+    this.setState({
+      ...defaultState,
+      starterText: 'Feel like more?',
+    });
+    this.setNeutralBackground();
   };
 
   render() {
+    const titleCard = this.state.selectingMood && <TitleCard text={this.state.starterText} />;
+    const negativeSize = (this.state.selectingMood && 'big') || (this.state.mood === 'negative' && 'bigger') || 'small';
+    const positiveSize = (this.state.selectingMood && 'big') || (this.state.mood === 'positive' && 'bigger') || 'small';
+
+    const positive = (
+      <MoodButton
+        inline={this.state.selectingMood}
+        size={positiveSize}
+        mood="positive"
+        onClick={this.setMood}
+      />
+    );
+
+    const negative = (
+      <MoodButton
+        inline={this.state.selectingMood}
+        size={negativeSize}
+        mood="negative"
+        onClick={this.setMood}
+      />
+    );
+
+    const submissionContainer = !this.state.selectingMood && (
+      <div className={`${styles.submissionContainer} ${!this.state.selectingMood && styles.visible}`}>
+        <TextArea
+          color={colourMapping[this.state.mood]}
+          value={this.state.submission}
+          onChange={this.textChanged}
+          placeholder={placeHolderMapping[this.state.mood]}
+        />
+        <Button
+          color={colourMapping[this.state.mood]}
+          enabled={this.state.readyToSubmit}
+          onClick={this.submit}
+          text="SUBMIT"
+        />
+      </div>
+    );
+
     return (
       <div className={styles.container}>
-        <div
-          className={`${styles.feedbackTitle} ${!this.state.selectingMood && styles.invisible}`}
-        >
-          Choose the type of feedback...
+        <div className={styles.moodContainer}>
+          {positive}
+          {negative}
         </div>
-
-        <div>
-          <MoodButton
-            selected={this.state.mood === 1}
-            showText={!this.state.selectingMood && this.state.mood !== 1}
-            mood={1}
-            onClick={this.setMood}
-          />
-
-          <MoodButton
-            selected={this.state.mood === -1}
-            showText={!this.state.selectingMood && this.state.mood !== -1}
-            mood={-1}
-            onClick={this.setMood}
-          />
-        </div>
-
-        <div className={`${styles.submissionContainer} ${!this.state.selectingMood && styles.visible}`}>
-          <TextArea value={this.state.submission} onChange={this.textChanged} />
-          <Button enabled={this.state.readyToSubmit} onClick={this.submit} text="SUBMIT" />
-        </div>
+        {titleCard}
+        {submissionContainer}
       </div>
     );
   }
