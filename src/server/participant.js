@@ -1,5 +1,7 @@
 import state, { STAGE_SUBMIT, STAGE_VOTE } from 'src/server/state';
 
+const debug = require('debug')('retro:participant');
+
 export default (app) => {
   app.get('/api/participant/stage', (req, res) => {
     res.send(state.stage());
@@ -13,6 +15,7 @@ export default (app) => {
     const { submission, mood } = req.body;
     const added = state.addSubmission(submission, mood);
     if (added) {
+      debug('Submitted', submission);
       res.sendStatus(201);
     } else {
       res.sendStatus(200);
@@ -35,6 +38,7 @@ export default (app) => {
     const { submission } = req.body;
     const voted = state.voteSubmission(submission);
     if (voted) {
+      debug('Voted for', submission);
       res.sendStatus(204);
     } else {
       res.sendStatus(200);
