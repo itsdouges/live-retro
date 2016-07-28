@@ -3,12 +3,14 @@ import state from 'src/server/state';
 const debug = require('debug')('retro:master');
 
 const FALLBACK_KEY = process.env.FALLBACK_KEY || 'super-secret';
-const RESET_AFTER = (process.env.EXPIRE_MASTER || 60) * 60 * 1000;
+const MASTER_EXPIRES_DURATION = (process.env.EXPIRE_MASTER || 60) * 60 * 1000;
+const MASTER_KEY_COOKIE = 'master-key';
 
 let masterKey = null;
 
 function getKey() {
-  return Date.now();
+  const hash = `${Date.now()}`.slice(-4);
+  return `master-${hash}`;
 }
 
 function resetKey() {
@@ -17,26 +19,29 @@ function resetKey() {
 }
 
 export default (app) => {
-  app.get('/master', (req, res) => {
+  app.use('/master', (req, res, next) => {
     if (masterKey) {
       debug('we already have a master', masterKey);
-      res.status(401).send('We already have a master');
+      res.status(401).end('We already have a master');
       return;
     }
     masterKey = getKey();
     debug('we have a new master', masterKey);
-    res.send(`You da master now! ${masterKey}`);
-    setTimeout(resetKey, RESET_AFTER);
+    res.cookie(MASTER_KEY_COOKIE, masterKey, {
+      expires: new Date(Date.now() + MASTER_EXPIRES_DURATION),
+    });
+    setTimeout(resetKey, MASTER_EXPIRES_DURATION);
+    next();
   });
 
   app.use('/api/master(/*)?', (req, res, next) => {
-    const receivedKey = req.get('master-key');
+    const receivedKey = req.cookies[MASTER_KEY_COOKIE];
     if (!masterKey) {
-      res.status(500).send('There is no master');
+      res.status(500).end('There is no master');
       return;
     }
     if (receivedKey !== masterKey && receivedKey !== FALLBACK_KEY) {
-      res.status(401).send("You're not the master");
+      res.status(401).end("You're not the master");
       return;
     }
     next();
