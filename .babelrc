@@ -1,0 +1,13 @@
+{
+	"presets": ["node6", "stage-0"],
+	"plugins": [
+		"transform-runtime",
+		"transform-object-rest-spread",
+		"transform-es2015-destructuring",
+		"transform-es2015-parameters",
+		["transform-async-to-module-method", {
+			"module": "bluebird",
+			"method": "coroutine"
+		}]
+	],
+}
