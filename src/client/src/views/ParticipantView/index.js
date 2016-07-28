@@ -29,7 +29,7 @@ export default class ParticipantView extends Component {
 
   readServerStage() {
     setTimeout(() => {
-      const result = 'vote';
+      const result = 'result';
 
       const toRoute = stageToRouteMapping[result];
       this.context.router.push(toRoute);

@@ -6,8 +6,8 @@ const Submissions = (props) => (
   <div className={styles.container}>
     {props.items.map((submission) => (
       <Submission
-        onClick={() => props.onItemClick(submission)}
-        votes={props.votes[submission]}
+        onClick={() => props.onItemClick && props.onItemClick(submission)}
+        votes={props.votes && props.votes[submission]}
         key={submission}
         data={submission}
       />
