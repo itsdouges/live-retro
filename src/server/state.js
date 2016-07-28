@@ -21,15 +21,17 @@ function getStage() {
   return { stage };
 }
 
-function addSubmission(submission) {
+function addSubmission(submission, mood) {
   if (!state.submissions[submission]) {
-    state.submissions[submission] = 0;
+    state.submissions[submission] = mood > 0 ? 1 : -1;
+    return true;
   }
+  return false;
 }
 
 function voteSubmission(submission) {
   if (submission in state.submissions) {
-    state.submissions[submission] += 1;
+    state.submissions[submission] += Math.sign(state.submissions[submission]) * 1;
     return true;
   }
   return false;

@@ -14,8 +14,13 @@ export default (app) => {
       res.status(401).send("You can't submit any more");
       return;
     }
-    state.addSubmission(req.body.submission);
-    res.sendStatus(201);
+    const { submission, mood } = req.body;
+    const added = state.addSubmission(submission, mood);
+    if (added) {
+      res.sendStatus(201);
+    } else {
+      res.sendStatus(200);
+    }
   });
 
   app.get('/api/participant/submissions', (req, res) => {
@@ -31,7 +36,8 @@ export default (app) => {
       res.status(401).send("We're not voting yet");
       return;
     }
-    const voted = state.voteSubmission(req.body.submission);
+    const { submission } = req.body;
+    const voted = state.voteSubmission(submission);
     if (voted) {
       res.sendStatus(204);
     } else {
