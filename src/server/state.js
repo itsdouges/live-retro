@@ -3,6 +3,7 @@ export const STAGE_VOTE = 'vote';
 export const STAGE_RESULTS = 'results';
 
 const state = {};
+reset(); // eslint-disable-line no-use-before-define
 
 function get() {
   return state;
