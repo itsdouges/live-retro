@@ -46,12 +46,12 @@ export default (app) => {
     res.send(state.get());
   });
 
-  app.post('/api/master/stage', (req, res) => {
+  app.post('/api/master/state/stage', (req, res) => {
     state.setStage(req.body.stage);
     res.send(state.get());
   });
 
-  app.delete('/api/master/results', (req, res) => {
+  app.delete('/api/master/state', (req, res) => {
     state.reset();
     res.send(`Reset!
       ${state.get()}

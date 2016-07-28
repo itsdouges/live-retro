@@ -22,7 +22,7 @@ export default (app) => {
     res.send(state.submissions());
   });
 
-  app.post('/api/participant/vote', (req, res) => {
+  app.post('/api/participant/submissions/vote', (req, res) => {
     state.voteSubmission(req.body.submission);
     res.sendStatus(200);
   });
