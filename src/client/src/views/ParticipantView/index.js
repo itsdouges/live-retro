@@ -5,7 +5,7 @@ import { get } from 'axios';
 const pollInterval = 1000;
 const stageToRouteMapping = {
   submit: '/submit',
-  vote: '/voting',
+  vote: '/vote',
   results: '/results',
 };
 

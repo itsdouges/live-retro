@@ -46,7 +46,10 @@ const caseInsensitiveSort = (a, b) => {
 };
 
 function getSubmissions() {
-  const submissions = Object.keys(state.submissions).sort(caseInsensitiveSort);
+  const submissions = Object.keys(state.submissions).sort(caseInsensitiveSort).reduce((acc, key) => ({
+    ...acc,
+    [key]: state.submissions[key],
+  }), {});
   return { submissions };
 }
 

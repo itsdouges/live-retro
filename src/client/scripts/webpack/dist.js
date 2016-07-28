@@ -5,7 +5,7 @@ const baseConfig = require('./base');
 const defaultSettings = require('./defaults');
 
 const config = Object.assign({}, baseConfig, {
-  entry: path.join(__dirname, '../src/index'),
+  entry: path.join(__dirname, '../../src/index'),
   cache: false,
   devtool: 'sourcemap',
   plugins: [
@@ -22,7 +22,9 @@ const config = Object.assign({}, baseConfig, {
       React: 'react',
     }),
   ],
-  module: defaultSettings.getDefaultModules(),
+  module: Object.assign({}, defaultSettings.getDefaultModules(), {
+    preLoaders: [],
+  }),
 });
 
 // Add needed loaders to the defaults here
