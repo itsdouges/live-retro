@@ -1,19 +1,57 @@
 import state from 'src/server/state';
 
+const debug = require('debug')('retro:master');
+
+const FALLBACK_KEY = 'super-secret';
+const RESET_AFTER = 60 * 60 * 1000; // 60 minutes
+
+let masterKey = null;
+
+function getKey() {
+  return Date.now();
+}
+
+function resetKey() {
+  debug('no more master');
+  masterKey = null;
+}
+
 export default (app) => {
   app.get('/master', (req, res) => {
-    res.send("You're the master now");
+    if (masterKey) {
+      debug('we already have a master', masterKey);
+      res.status(401).send('We already have a master');
+      return;
+    }
+    masterKey = getKey();
+    debug('we have a new master', masterKey);
+    res.send(`You da master now!
+      ${masterKey}`);
+    setTimeout(resetKey, RESET_AFTER);
+  });
+
+  app.use('/api/master/*', (req, res, next) => {
+    const receivedKey = req.get('master-key');
+    if (!masterKey) {
+      res.status(500).send('There is no master');
+      return;
+    }
+    if (receivedKey !== masterKey && receivedKey !== FALLBACK_KEY) {
+      res.status(401).send("You're not the master");
+      return;
+    }
+    next();
+  });
+
+  app.post('/api/master/stage', (req, res) => {
+    state.setStage(req.body.stage);
     res.send(state.get());
   });
 
-  let i = 0;
-  app.post('/master/next', (req, res) => {
-    state.set('stage', ++i);
-    res.send(`Next!\n${state.getSerialised()}`);
-  });
-
-  app.post('/master/reset', (req, res) => {
+  app.delete('/api/master/results', (req, res) => {
     state.reset();
-    res.send(`Reset!\n${state.getSerialised()}`);
+    res.send(`Reset!
+      ${state.get()}
+    `);
   });
 };
