@@ -2,8 +2,8 @@ import state from 'src/server/state';
 
 const debug = require('debug')('retro:master');
 
-const FALLBACK_KEY = 'super-secret';
-const RESET_AFTER = 60 * 60 * 1000; // 60 minutes
+const FALLBACK_KEY = process.env.FALLBACK_KEY || 'super-secret';
+const RESET_AFTER = (process.env.EXPIRE_MASTER || 60) * 60 * 1000;
 
 let masterKey = null;
 
@@ -25,12 +25,11 @@ export default (app) => {
     }
     masterKey = getKey();
     debug('we have a new master', masterKey);
-    state.reset();
     res.send(`You da master now! ${masterKey}`);
     setTimeout(resetKey, RESET_AFTER);
   });
 
-  app.use('/api/master/*', (req, res, next) => {
+  app.use('/api/master(/*)?', (req, res, next) => {
     const receivedKey = req.get('master-key');
     if (!masterKey) {
       res.status(500).send('There is no master');
@@ -41,6 +40,11 @@ export default (app) => {
       return;
     }
     next();
+  });
+
+  app.delete('/api/master', (req, res) => {
+    resetKey();
+    res.send(204);
   });
 
   app.get('/api/master/state', (req, res) => {
@@ -56,7 +60,6 @@ export default (app) => {
 
   app.delete('/api/master/state', (req, res) => {
     state.reset();
-    resetKey();
     res.send(state.get());
   });
 };

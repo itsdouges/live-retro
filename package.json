@@ -4,11 +4,15 @@
   "description": "FUCKING AWESOME RETRO FUCK YEAH",
   "main": "index.js",
   "scripts": {
+    "postinstall": "cd src/client; npm install",
     "lint": "eslint --fix .",
     "start": "node start.js"
   },
-  "author": "",
+  "author": "Remus Mate <remus.mate@mi9.com.au>",
   "license": "ISC",
+  "engines" : {
+    "node" : "^6.3.0"
+  },
   "repository": {
     "type": "git",
     "url": "ssh://git@stash.9msn.net:7999/~marius-remus.mate/retro.git"
