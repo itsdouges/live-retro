@@ -29,7 +29,9 @@ function addSubmission(submission) {
 function voteSubmission(submission) {
   if (submission in state.submissions) {
     state.submissions[submission] += 1;
+    return true;
   }
+  return false;
 }
 
 const caseInsensitiveSort = (a, b) => {
