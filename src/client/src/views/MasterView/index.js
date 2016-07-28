@@ -1,16 +1,14 @@
 import { Component, PropTypes } from 'react';
 
-const participant = 'participant';
 const stageToRouteMapping = {
-  submit: `/${participant}/submit`,
-  vote: `/${participant}/voting`,
-  result: `/${participant}/result`,
+  submit: '/master/waiting',
+  vote: '/master/waiting',
+  result: '/master/results',
 };
 
-export default class ParticipantView extends Component {
+export default class MasterView extends Component {
   static propTypes = {
     children: PropTypes.node,
-    history: PropTypes.any,
   };
 
   static contextTypes = {
@@ -22,10 +20,6 @@ export default class ParticipantView extends Component {
     this.state = {};
 
     this.readServerStage();
-
-    // setInterval(() => {
-    //   this.readServerState();
-    // }, 50);
   }
 
   readServerStage() {
@@ -38,6 +32,6 @@ export default class ParticipantView extends Component {
   }
 
   render() {
-    return <div>{this.props.children}</div>;
+    return <span>{this.props.children}</span>;
   }
 }

@@ -13,12 +13,12 @@ import { Router, Route, browserHistory } from 'react-router';
 render(
   <Router history={browserHistory}>
     <Route path="" component={App}>
-      <Route path="/participant/" component={ParticipantView}>
+      <Route path="/" component={ParticipantView}>
         <Route path="submit" component={SubmitView} />
-        <Route path="vote" component={VoteView} />
+        <Route path="voting" component={VoteView} />
         <Route path="results" component={ResultsView} />
       </Route>
-      <Route path="/master/" component={MasterView}>
+      <Route path="/master" component={MasterView}>
         <Route path="waiting" component={ResultsView} />
         <Route path="results" component={ResultsView} />
       </Route>
