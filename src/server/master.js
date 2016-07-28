@@ -3,7 +3,7 @@ import state from 'src/server/state';
 const debug = require('debug')('retro:master');
 
 const FALLBACK_KEY = 'super-secret';
-const RESET_AFTER = 60 * 60 * 1000; // 60 minutes
+const RESET_AFTER = (process.env.EXPIRE_MASTER || 60) * 60 * 1000;
 
 let masterKey = null;
 
