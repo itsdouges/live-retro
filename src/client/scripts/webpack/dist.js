@@ -22,7 +22,9 @@ const config = Object.assign({}, baseConfig, {
       React: 'react',
     }),
   ],
-  module: defaultSettings.getDefaultModules(),
+  module: Object.assign({}, defaultSettings.getDefaultModules(), {
+    preLoaders: [],
+  }),
 });
 
 // Add needed loaders to the defaults here
