@@ -7,7 +7,7 @@ export default (app) => {
 
   app.post('/api/participant/submissions', (req, res) => {
     if (state.stage().stage !== STAGE_SUBMIT) {
-      res.status(401).send("You can't submit any more");
+      res.status(401).end("You can't submit any more");
       return;
     }
     const { submission, mood } = req.body;
@@ -29,7 +29,7 @@ export default (app) => {
 
   app.post('/api/participant/submissions/vote', (req, res) => {
     if (state.stage().stage !== STAGE_VOTE) {
-      res.status(401).send("We're not voting yet");
+      res.status(401).end("We're not voting yet");
       return;
     }
     const { submission } = req.body;
