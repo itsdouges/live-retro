@@ -1,36 +1,27 @@
-'use strict';
+const path = require('path');
+const webpack = require('webpack');
+const baseConfig = require('./base');
+const defaultSettings = require('./defaults');
 
-let path = require('path');
-let webpack = require('webpack');
-let baseConfig = require('./base');
-let defaultSettings = require('./defaults');
-
-let config = Object.assign({}, baseConfig, {
+const config = Object.assign({}, baseConfig, {
   entry: [
-    'webpack-dev-server/client?http://127.0.0.1:' + defaultSettings.port,
-    'webpack/hot/only-dev-server',
-    './src/index'
+    './src/index',
   ],
   cache: true,
   devtool: 'eval-source-map',
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     new webpack.ProvidePlugin({
-      React: 'react'
-    })
+      React: 'react',
+    }),
   ],
-  module: defaultSettings.getDefaultModules()
+  module: defaultSettings.getDefaultModules(),
 });
 
-// Add needed loaders to the defaults here
 config.module.loaders.push({
-  test: /\.(js|jsx)$/,
+  test: /\.(js)$/,
   loader: 'react-hot!babel-loader',
-  include: [].concat(
-    config.additionalPaths,
-    [ path.join(__dirname, '/../src') ]
-  )
+  include: [config.additionalPaths, path.join(__dirname, '/../src')],
 });
 
 module.exports = config;
