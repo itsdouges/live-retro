@@ -20,6 +20,9 @@ module.exports = {
     port: defaultSettings.port,
     publicPath: defaultSettings.publicPath,
     noInfo: false,
+    proxy: {
+      '*': 'http://localhost:3000',
+    },
   },
   resolve: {
     extensions: ['', '.js'],

@@ -1,10 +1,6 @@
 import state, { STAGE_SUBMIT, STAGE_VOTE } from 'src/server/state';
 
 export default (app) => {
-  app.get('/', (req, res) => {
-    res.send('Hello participant!');
-  });
-
   app.get('/api/participant/stage', (req, res) => {
     res.send(state.stage());
   });

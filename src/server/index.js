@@ -15,6 +15,9 @@ master(app);
 participant(app);
 results(app);
 
+app.use('/', express.static('src/client/dist'));
+app.use('/master', express.static('src/client/dist'));
+
 app.listen(process.env.PORT || 3000, () => {
   debug('up');
 });
