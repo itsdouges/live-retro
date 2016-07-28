@@ -18,10 +18,13 @@ participant(app);
 results(app);
 
 app.use('/master', express.static('src/client/dist/index.html'));
-app.use('/', express.static('src/client/dist'));
-app.get('*', (req, res) => {
-  res.redirect('/');
-});
+app.use(express.static('src/client/dist'));
+
+if (process.env.NODE_ENV !== 'production') {
+  app.get(/\/(?!assets).+/, (req, res) => {
+    res.redirect('/');
+  });
+}
 
 app.listen(process.env.PORT || 3000, () => {
   debug('up');
