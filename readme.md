@@ -3,6 +3,7 @@
   - GET /api/master/state - get app state (using the master key)
   - POST /api/master/state - advance to next stage (using the master key)
   - DELETE /api/master/state - reset session (using the master key)
+  - DELETE /api/master - reset the master key (using the fallback key)
 * GET / - the participant page
   - GET /api/participant/stage - get the current stage
   - POST /api/participant/submissions - submit a good/bad thing
