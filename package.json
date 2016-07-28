@@ -4,7 +4,7 @@
   "description": "FUCKING AWESOME RETRO FUCK YEAH",
   "main": "index.js",
   "scripts": {
-    "postinstall": "cd src/client; npm install; npm run dist",
+    "postinstall": "cd src/client; npm install && npm run dist",
     "lint": "eslint --fix .",
     "start": "node start.js"
   },
