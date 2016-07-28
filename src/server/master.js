@@ -25,8 +25,7 @@ export default (app) => {
     }
     masterKey = getKey();
     debug('we have a new master', masterKey);
-    res.send(`You da master now!
-      ${masterKey}`);
+    res.send(`You da master now! ${masterKey}`);
     setTimeout(resetKey, RESET_AFTER);
   });
 
@@ -41,6 +40,10 @@ export default (app) => {
       return;
     }
     next();
+  });
+
+  app.get('/api/master/state', (req, res) => {
+    res.send(state.get());
   });
 
   app.post('/api/master/stage', (req, res) => {
