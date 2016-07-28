@@ -15,6 +15,6 @@ master(app);
 participant(app);
 results(app);
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
   debug('up');
 });
