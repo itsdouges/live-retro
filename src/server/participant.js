@@ -1,6 +1,10 @@
 import state, { STAGE_SUBMIT, STAGE_VOTE } from 'src/server/state';
 
 export default (app) => {
+  app.get('/', (req, res) => {
+    res.redirect('/participant');
+  });
+
   app.get('/participant', (req, res) => {
     res.send('Hello!');
   });
