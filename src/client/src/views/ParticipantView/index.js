@@ -13,6 +13,7 @@ export default class ParticipantView extends Component {
   static propTypes = {
     children: PropTypes.node,
     history: PropTypes.any,
+    location: PropTypes.object,
   };
 
   static contextTypes = {
@@ -31,7 +32,10 @@ export default class ParticipantView extends Component {
     get(`${config.api}participant/stage`)
       .then(({ data }) => {
         const toRoute = stageToRouteMapping[data.stage];
-        this.context.router.push(toRoute);
+
+        if (this.props.location.pathname !== toRoute) {
+          this.context.router.push(toRoute);
+        }
       });
   }
 

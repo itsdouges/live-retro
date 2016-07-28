@@ -6,8 +6,8 @@ const FullScreenMessage = (props) => (
     className={`${styles.container} ${props.shown && styles.visible}`}
     style={{ background: props.background }}
   >
-    {props.text}
     <img className={styles.icon} src={props.icon} alt="abc" />
+    {props.text}
   </div>
 );
 

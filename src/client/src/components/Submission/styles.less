@@ -5,6 +5,7 @@
   justify-content: space-between;
   font-size: 1.25em;
   border-top: 1px solid red;
+  transition: background 0.2s;
 }
 
 .votes {
@@ -13,13 +14,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid red;
+  border: 2px solid white;
   border-radius: 50%;
   flex-shrink: 0;
+  transition: opacity 0.2s;
 }
 
 .icon {
   flex-shrink: 0;
+  transition: opacity 0.2s;
 }
 
 .text {
@@ -27,4 +30,22 @@
   width: 100%;
   text-align: left;
   overflow: hidden;
+}
+
+.active {
+  background: #61C6C3;;
+}
+
+.active .text,
+.active .votes {
+  color: white;
+  border-color: white;
+}
+
+.active .votes {
+  // opacity: 0.3;
+}
+
+.final .votes {
+  border-color: black;
 }

@@ -2,20 +2,37 @@ import { PropTypes } from 'react';
 import styles from './styles.less';
 import Submission from '../Submission';
 
-function normaliseSubmissions(submissions) {
-  return Object.keys(submissions).map((key) => {
+function orderByVotes(a, b) {
+  if (a.votes < b.votes) {
+    return 1;
+  }
+
+  if (a.votes > b.votes) {
+    return -1;
+  }
+
+  return 0;
+}
+
+function normaliseSubmissions(submissions, votes) {
+  const finalResult = !votes; // if votes is undefined data is from results page
+
+  const normalised = Object.keys(submissions).map((key) => {
     const data = submissions[key];
     return {
       text: key,
       mood: data > 0 ? 'positive' : 'negative',
-      votes: Math.abs(data),
+      votes: votes ? votes[key] : Math.abs(data) - 1,
+      finalResult,
     };
   });
+
+  return finalResult ? normalised.sort(orderByVotes) : normalised;
 }
 
 const Submissions = (props) => (
   <div className={styles.container}>
-    {normaliseSubmissions(props.items).map((submission) => (
+    {normaliseSubmissions(props.items, props.votes).map((submission) => (
       <Submission
         onClick={() => props.onItemClick && props.onItemClick(submission.text)}
         key={submission.text}
