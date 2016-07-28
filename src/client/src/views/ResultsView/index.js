@@ -10,6 +10,10 @@ export default class ResultsView extends Component {
     setBackground: PropTypes.func,
   };
 
+  static propTypes = {
+    location: PropTypes.object,
+  };
+
   constructor() {
     super();
     this.state = {
@@ -20,7 +24,29 @@ export default class ResultsView extends Component {
   componentWillMount() {
     this.context.setBackground(`url(${bgPositive})`);
 
-    get(`${config.api}results`)
+    const masterMode = this.props.location.pathname.indexOf('master') > 0;
+
+    const url = masterMode ?
+      `${config.api}master/state` :
+      `${config.api}results`;
+
+    this.hydrateSubmissions(url);
+
+    if (masterMode) {
+      this.hydrateInterval = setInterval(() => {
+        this.hydrateSubmissions(url);
+      }, 1000);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.hydrateInterval) {
+      clearInterval(this.hydrateInterval);
+    }
+  }
+
+  hydrateSubmissions(url) {
+    get(url)
       .then(({ data }) => {
         this.setState({
           ...this.state,

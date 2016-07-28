@@ -1,4 +1,5 @@
 import { Component, PropTypes } from 'react';
+import styles from './styles.less';
 
 const stageToRouteMapping = {
   submit: '/master/waiting',
@@ -32,6 +33,16 @@ export default class MasterView extends Component {
   }
 
   render() {
-    return <span>{this.props.children}</span>;
+    return (
+      <span>
+        <div className={styles.contentContainer}>
+          {this.props.children}
+        </div>
+        <div className={styles.controlsContainer}>
+          nxt
+          prv
+        </div>
+      </span>
+    );
   }
 }
