@@ -1,19 +1,69 @@
+export const STAGE_SUBMIT = 'submit';
+export const STAGE_VOTE = 'vote';
+export const STAGE_RESULTS = 'results';
+
 const state = {};
 
 function get() {
   return state;
 }
 
-function getSerialised() {
-  return JSON.stringify(state);
+function setStage(stage) {
+  if (stage !== STAGE_SUBMIT && stage !== STAGE_VOTE && stage !== STAGE_RESULTS) {
+    throw new Error(`Invalid stage: ${stage}`);
+  }
+  state.stage = stage;
 }
 
-function set(key, value) {
-  state[key] = value;
+function getStage() {
+  const { stage } = state;
+  return { stage };
+}
+
+function addSubmission(submission) {
+  if (!state.submissions[submission]) {
+    state.submissions[submission] = 0;
+  }
+}
+
+function voteSubmission(submission) {
+  if (submission in state.submissions) {
+    state.submissions[submission] += 1;
+    return true;
+  }
+  return false;
+}
+
+const caseInsensitiveSort = (a, b) => {
+  const aLower = a.toLowerCase();
+  const bLower = b.toLowerCase();
+  if (aLower < bLower) return -1;
+  if (aLower > bLower) return 1;
+  return 0;
+};
+
+function getSubmissions() {
+  const submissions = Object.keys(state.submissions).sort(caseInsensitiveSort);
+  return { submissions };
+}
+
+function getResults() {
+  const { submissions } = state;
+  return { submissions };
 }
 
 function reset() {
-  Object.keys(state).forEach((key) => delete state[key]);
+  state.stage = STAGE_SUBMIT;
+  state.submissions = {};
 }
 
-export default { get, getSerialised, set, reset };
+export default {
+  get,
+  reset,
+  setStage,
+  stage: getStage,
+  addSubmission,
+  voteSubmission,
+  submissions: getSubmissions,
+  results: getResults,
+};

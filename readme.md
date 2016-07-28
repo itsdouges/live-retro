@@ -1,13 +1,11 @@
 ## Routes
-- /master - controller
-- /       - participant
-- /status - session state
-- /reset  - reset session
-
-### /master
-Controls the flow of the app - submitting good/bad, voting, results.
-
-### /
-Participants get the current screen and are able to interact with it.
-
-#### Screen 1: Submitting
+* GET /master - the master page (you get the master key)
+  - GET /api/master/state - get app state (using the master key)
+  - POST /api/master/state - advance to next stage (using the master key)
+  - DELETE /api/master/state - reset session (using the master key)
+* GET /participant - the participant page
+  - GET /api/participant/stage - get the current stage
+  - POST /api/participant/submissions - submit a good/bad thing
+  - GET /api/participant/submissions - show submissions
+  - POST /api/participant/submissions/vote - vote on a good/bad submission
+* GET /api/results - final results

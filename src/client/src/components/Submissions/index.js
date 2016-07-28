@@ -4,12 +4,21 @@ import Submission from '../Submission';
 
 const Submissions = (props) => (
   <div className={styles.container}>
-    {props.items.map((submission) => <Submission key={submission} data={submission} />)}
+    {props.items.map((submission) => (
+      <Submission
+        onClick={() => props.onItemClick(submission)}
+        votes={props.votes[submission]}
+        key={submission}
+        data={submission}
+      />
+    ))}
   </div>
 );
 
 Submissions.prototype.propTypes = {
   items: PropTypes.array,
+  onItemClick: PropTypes.func,
+  votes: PropTypes.object,
 };
 
 export default Submissions;
