@@ -1,5 +1,3 @@
-'use strict';
-
 const path = require('path');
 const args = require('minimist')(process.argv.slice(2));
 
@@ -23,9 +21,10 @@ process.env.REACT_WEBPACK_ENV = env;
  * @return {Object} Webpack config
  */
 function buildConfig(wantedEnv) {
-  let isValid = wantedEnv && wantedEnv.length > 0 && allowedEnvs.indexOf(wantedEnv) !== -1;
-  let validEnv = isValid ? wantedEnv : 'dev';
-  let config = require(path.join(__dirname, 'cfg/' + validEnv));
+  const isValid = wantedEnv && wantedEnv.length > 0 && allowedEnvs.indexOf(wantedEnv) !== -1;
+  const validEnv = isValid ? wantedEnv : 'dev';
+  /* eslint global-require: 0 */
+  const config = require(path.join(__dirname, `scripts/webpack/${validEnv}`));
   return config;
 }
 
