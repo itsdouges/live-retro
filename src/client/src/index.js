@@ -6,7 +6,6 @@ import SubmitView from './views/SubmitView';
 import ResultsView from './views/ResultsView';
 import MasterView from './views/MasterView';
 import ParticipantView from './views/ParticipantView';
-import 'whatwg-fetch';
 import 'normalize.css/normalize.css';
 import { Router, Route, browserHistory } from 'react-router';
 

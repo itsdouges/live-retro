@@ -3,15 +3,15 @@ import styles from './styles.less';
 
 const Submission = (props) => (
   <div onClick={props.onClick} className={styles.container}>
-    {props.data}
-    {props.votes}
+    {props.data.mood}
+    {props.data.text}
+    {props.data.votes}
   </div>
 );
 
 Submission.prototype.propTypes = {
-  data: PropTypes.string,
+  data: PropTypes.object,
   onClick: PropTypes.func,
-  votes: PropTypes.string,
 };
 
 export default Submission;

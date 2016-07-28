@@ -14,6 +14,9 @@ const config = Object.assign({}, baseConfig, {
     new webpack.ProvidePlugin({
       React: 'react',
     }),
+    new webpack.DefinePlugin({
+      __DEVELOPMENT__: true,
+    }),
   ],
   module: defaultSettings.getDefaultModules(),
 });

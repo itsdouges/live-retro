@@ -9,7 +9,7 @@
     "copy": "copyfiles -f ./src/index.html ./src/favicon.ico ./dist",
     "dist": "npm run copy & webpack --env=dist",
     "lint": "eslint ./src",
-    "dev": "webpack-dev-server"
+    "dev": "webpack-dev-server --env dev"
   },
   "repository": "",
   "keywords": [],
@@ -44,11 +44,11 @@
     "less": "^2.5.3"
   },
   "dependencies": {
+    "axios": "^0.13.1",
     "core-js": "^2.0.0",
     "normalize.css": "^4.0.0",
     "react": "^15.0.0",
     "react-dom": "^15.0.0",
-    "react-router": "^2.6.0",
-    "whatwg-fetch": "^1.0.0"
+    "react-router": "^2.6.0"
   }
 }

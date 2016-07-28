@@ -1,9 +1,12 @@
 import { Component, PropTypes } from 'react';
+import config from '../../../scripts/config';
+import { get } from 'axios';
 
+const pollInterval = 1000;
 const stageToRouteMapping = {
   submit: '/submit',
   vote: '/voting',
-  result: '/results',
+  results: '/results',
 };
 
 export default class ParticipantView extends Component {
@@ -16,24 +19,20 @@ export default class ParticipantView extends Component {
     router: PropTypes.any,
   };
 
-  constructor() {
-    super();
-    this.state = {};
+  componentWillMount() {
+    this.checkStage();
 
-    this.readServerStage();
-
-    // setInterval(() => {
-    //   this.readServerState();
-    // }, 50);
+    setInterval(() => {
+      this.checkStage();
+    }, pollInterval);
   }
 
-  readServerStage() {
-    setTimeout(() => {
-      const result = 'result';
-
-      const toRoute = stageToRouteMapping[result];
-      this.context.router.push(toRoute);
-    }, 50);
+  checkStage() {
+    get(`${config.api}participant/stage`)
+      .then(({ data }) => {
+        const toRoute = stageToRouteMapping[data.stage];
+        this.context.router.push(toRoute);
+      });
   }
 
   render() {

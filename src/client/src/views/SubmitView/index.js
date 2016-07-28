@@ -3,14 +3,16 @@ import TextArea from '../../components/TextArea';
 import MoodButton from '../../components/MoodButton';
 import Button from '../../components/Button';
 import styles from './styles.less';
+import { post } from 'axios';
+import config from '../../../scripts/config';
 
 const colourMapping = {
-  positive: 'yellow',
-  negative: 'blue',
+  1: 'yellow',
+  [-1]: 'blue',
 };
 
 const defaultState = {
-  mood: '',
+  mood: 0,
   readyToSubmit: false,
   selectingMood: true,
   submission: '',
@@ -51,13 +53,21 @@ export default class SubmitView extends Component {
   submit = () => {
     console.log(this.state.submission);
 
+    post(`${config.api}participant/submissions`, {
+      submission: this.state.submission,
+      mood: this.state.mood,
+    })
+    .then(() => {
+      console.log('subbmitted');
+    });
+
     this.setState(defaultState);
     this.context.setBackground('gray');
   };
 
   render() {
     return (
-      <span>
+      <div className={styles.container}>
         <div
           className={`${styles.feedbackTitle} ${!this.state.selectingMood && styles.invisible}`}
         >
@@ -66,16 +76,16 @@ export default class SubmitView extends Component {
 
         <div>
           <MoodButton
-            selected={this.state.mood === 'positive'}
-            showText={!this.state.selectingMood && this.state.mood !== 'positive'}
-            mood="positive"
+            selected={this.state.mood === 1}
+            showText={!this.state.selectingMood && this.state.mood !== 1}
+            mood={1}
             onClick={this.setMood}
           />
 
           <MoodButton
-            selected={this.state.mood === 'negative'}
-            showText={!this.state.selectingMood && this.state.mood !== 'negative'}
-            mood="negative"
+            selected={this.state.mood === -1}
+            showText={!this.state.selectingMood && this.state.mood !== -1}
+            mood={-1}
             onClick={this.setMood}
           />
         </div>
@@ -84,7 +94,7 @@ export default class SubmitView extends Component {
           <TextArea value={this.state.submission} onChange={this.textChanged} />
           <Button enabled={this.state.readyToSubmit} onClick={this.submit} text="SUBMIT" />
         </div>
-      </span>
+      </div>
     );
   }
 }

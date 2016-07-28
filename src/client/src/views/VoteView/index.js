@@ -2,13 +2,10 @@ import { Component, PropTypes } from 'react';
 import TitleCard from '../../components/TitleCard';
 import Submissions from '../../components/Submissions';
 import FullScreenMessage from '../../components/FullScreenMessage';
+import { get, post } from 'axios';
+import config from '../../../scripts/config';
 
 const voteLimit = 5;
-const submissions = [
-  'cool beans',
-  'sweet ride',
-  'awesome to work with',
-];
 
 export default class VoteView extends Component {
   static contextTypes = {
@@ -25,11 +22,20 @@ export default class VoteView extends Component {
     this.state = {
       voteCount: 0,
       votes: {},
+      submissions: [],
     };
   }
 
   componentWillMount() {
     this.context.setBackground('red');
+
+    get(`${config.api}participant/submissions`)
+      .then(({ data }) => {
+        this.setState({
+          ...this.state,
+          submissions: data.submissions,
+        });
+      });
   }
 
   vote = (submission) => {
@@ -59,6 +65,10 @@ export default class VoteView extends Component {
 
     console.log(`vote for ${submission}`);
     this.setState(newState);
+
+    post(`${config.api}participant/submissions/vote`, {
+      submission,
+    });
   }
 
   render() {
@@ -66,7 +76,7 @@ export default class VoteView extends Component {
       <span>
         <FullScreenMessage background="white" text="Your votes have been submitted" shown={this.state.finishedVoting} />
         <TitleCard text={`Vote on the top ${voteLimit} topics you want to discuss...`} />
-        <Submissions onItemClick={this.vote} items={submissions} votes={this.state.votes} />
+        <Submissions onItemClick={this.vote} items={this.state.submissions} votes={this.state.votes} />
       </span>
     );
   }

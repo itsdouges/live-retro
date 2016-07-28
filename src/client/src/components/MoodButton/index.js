@@ -2,8 +2,8 @@ import { PropTypes } from 'react';
 import styles from './styles.less';
 
 const MoodButton = (props) => {
-  const icon = props.mood === 'positive' ? <div>:)</div> : <div>:(</div>;
-  const text = props.showText && (<span>{`Give ${props.mood} feedback`.toUpperCase()}</span>);
+  const icon = props.mood > 0 ? <div>:)</div> : <div>:(</div>;
+  const text = props.showText && (<span>{`Give ${props.mood > 0 ? 'positive' : 'negative'} feedback`.toUpperCase()}</span>);
 
   return (
     <div

@@ -1,13 +1,8 @@
 import { Component, PropTypes } from 'react';
 import TitleCard from '../../components/TitleCard';
 import Submissions from '../../components/Submissions';
-
-const submissions = [
-  'hey',
-  'there',
-  'whatsup',
-  'man',
-];
+import { get } from 'axios';
+import config from '../../../scripts/config';
 
 export default class ResultsView extends Component {
   static contextTypes = {
@@ -16,18 +11,28 @@ export default class ResultsView extends Component {
 
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      submissions: [],
+    };
   }
 
   componentWillMount() {
     this.context.setBackground('purple');
+
+    get(`${config.api}results`)
+      .then(({ data }) => {
+        this.setState({
+          ...this.state,
+          submissions: data.submissions,
+        });
+      });
   }
 
   render() {
     return (
       <span>
         <TitleCard text="The results are in..." />
-        <Submissions items={submissions} />
+        <Submissions items={this.state.submissions} />
       </span>
     );
   }
