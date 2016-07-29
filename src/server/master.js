@@ -8,7 +8,7 @@ const MASTER_KEY_COOKIE = 'master-key';
 
 let masterKey = null;
 
-function getKey() {
+function newKey() {
   const hash = `${Date.now()}`.slice(-4);
   return `master-${hash}`;
 }
@@ -25,7 +25,7 @@ export default (app) => {
       res.status(401).end('We already have a master');
       return;
     }
-    masterKey = getKey();
+    masterKey = newKey();
     debug('we have a new master', masterKey);
     res.cookie(MASTER_KEY_COOKIE, masterKey, {
       expires: new Date(Date.now() + MASTER_EXPIRES_DURATION),
@@ -35,7 +35,7 @@ export default (app) => {
   });
 
   app.use('/api/master(/*)?', (req, res, next) => {
-    const receivedKey = req.cookies[MASTER_KEY_COOKIE];
+    const receivedKey = req.cookies[MASTER_KEY_COOKIE] || req.get(MASTER_KEY_COOKIE);
     if (!masterKey) {
       res.status(500).end('There is no master');
       return;
