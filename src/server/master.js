@@ -18,8 +18,17 @@ function resetKey() {
   masterKey = null;
 }
 
+function verifyKey(req) {
+  const receivedKey = req.cookies[MASTER_KEY_COOKIE] || req.get(MASTER_KEY_COOKIE);
+  return receivedKey === masterKey || receivedKey === FALLBACK_KEY;
+}
+
 export default (app) => {
   app.use('/master', (req, res, next) => {
+    if (verifyKey(req)) {
+      next();
+      return;
+    }
     if (masterKey) {
       debug('we already have a master', masterKey);
       res.status(401).end('We already have a master');
@@ -35,12 +44,11 @@ export default (app) => {
   });
 
   app.use('/api/master(/*)?', (req, res, next) => {
-    const receivedKey = req.cookies[MASTER_KEY_COOKIE] || req.get(MASTER_KEY_COOKIE);
     if (!masterKey) {
       res.status(500).end('There is no master');
       return;
     }
-    if (receivedKey !== masterKey && receivedKey !== FALLBACK_KEY) {
+    if (!verifyKey(req)) {
       res.status(401).end("You're not the master");
       return;
     }
