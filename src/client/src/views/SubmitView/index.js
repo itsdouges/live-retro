@@ -82,7 +82,7 @@ export default class SubmitView extends Component {
 
     this.setState({
       ...defaultState,
-      starterText: 'Say more! Else wait a bit..',
+      starterText: 'More feedback?',
     });
     this.setNeutralBackground();
   };
