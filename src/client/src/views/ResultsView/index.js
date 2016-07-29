@@ -3,7 +3,7 @@ import TitleCard from '../../components/TitleCard';
 import Submissions from '../../components/Submissions';
 import { get } from 'axios';
 import config from '../../../scripts/config';
-import bgPositive from '../../assets/images/bg-positive.png';
+import bgNeutral from '../../assets/images/bg-neutral.png';
 
 export default class ResultsView extends Component {
   static contextTypes = {
@@ -20,8 +20,7 @@ export default class ResultsView extends Component {
   };
 
   componentWillMount() {
-    this.context.setBackground(`url(${bgPositive})`);
-
+    this.context.setBackground(`url(${bgNeutral})`);
     const masterMode = this.props.master;
 
     const url = masterMode

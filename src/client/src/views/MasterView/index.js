@@ -54,7 +54,7 @@ export default class MasterView extends Component {
 
   render() {
     return (
-      <span>
+      <span className={styles.container}>
         <div className={styles.contentContainer}>
           {React.cloneElement(this.props.children, { master: true })}
         </div>
@@ -62,8 +62,9 @@ export default class MasterView extends Component {
           {Object.keys(stageToRouteMapping).map((stage) => (
             <Button
               key={stage}
-              color="blue"
+              color="#796f84"
               text={stage}
+              invert
               enabled={stage !== this.state.stage}
               onClick={() => this.updateServerStage(stage)}
             />

@@ -1,14 +1,28 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .contentContainer {
-  height: 80%;
+  flex-basis: 100%;
+  flex-grow: 1;
+  height: calc(100% - 110px);
 }
 
 .buttonsContainer {
-  height: 20%;
+  height: 110px;
+  flex-shrink: 0;
   display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .buttonsContainer > * {
-  flex: 1;
+  flex-shrink: 0;
   padding: 0;
   margin: 0;
+  width: 90px;
+  height: 90px;
+  line-height: 80px;
 }
