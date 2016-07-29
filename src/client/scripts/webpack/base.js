@@ -1,5 +1,6 @@
 const path = require('path');
 const defaultSettings = require('./defaults');
+const autoprefixer = require('autoprefixer');
 
 const additionalPaths = [];
 
@@ -28,4 +29,5 @@ module.exports = {
     extensions: ['', '.js'],
   },
   module: {},
+  postcss: () => [autoprefixer],
 };

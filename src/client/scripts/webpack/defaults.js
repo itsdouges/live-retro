@@ -5,7 +5,7 @@ const dfltPort = 8000;
 /* eslint no-confusing-arrow:0 */
 const loader = (loaderName, ...opts) => !opts ? loaderName : `${loaderName}?${opts.join('&')}`;
 const localIdentName = '[folder]--[local]--[hash:base64:2]';
-const cssLoaderOpts = ['modules', 'importLoaders=2', 'sourceMap', `localIdentName=${localIdentName}`];
+const cssLoaderOpts = ['modules', 'importLoaders=1', 'sourceMap', `localIdentName=${localIdentName}`];
 
 /**
  * Get the default modules object for webpack
@@ -27,7 +27,7 @@ function getDefaultModules() {
       },
       {
         test: /\.less/,
-        loader: `style!${loader('css', ...cssLoaderOpts)}!less`,
+        loader: `style!${loader('css', ...cssLoaderOpts)}!postcss!less`,
       },
       {
         test: /\.(png|jpg|gif|svg|woff|woff2|otf|eot|ttf)$/,

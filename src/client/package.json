@@ -22,6 +22,7 @@
     "webpack-dev-server": "^1.12.0"
   },
   "dependencies": {
+    "autoprefixer": "^6.3.7",
     "axios": "^0.13.1",
     "babel-core": "^6.0.0",
     "babel-loader": "^6.0.0",
@@ -41,6 +42,7 @@
     "normalize.css": "^4.0.0",
     "null-loader": "^0.1.1",
     "open": "0.0.5",
+    "postcss-loader": "^0.9.1",
     "react": "^15.0.0",
     "react-addons-test-utils": "^15.0.0",
     "react-dom": "^15.0.0",
