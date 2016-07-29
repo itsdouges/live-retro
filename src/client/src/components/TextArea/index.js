@@ -4,7 +4,7 @@ import Textarea from 'react-textarea-autosize';
 
 const TextArea = (props) => (
   <div style={{ borderColor: props.color }} className={styles.container}>
-    <Textarea value={props.value} placeholder={props.placeholder} onChange={props.onChange} />
+    <Textarea autoFocus value={props.value} placeholder={props.placeholder} onChange={props.onChange} />
   </div>
 );
 

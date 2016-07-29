@@ -4,7 +4,7 @@ import Submissions from '../../components/Submissions';
 import FullScreenMessage from '../../components/FullScreenMessage';
 import { get, post } from 'axios';
 import config from '../../../scripts/config';
-import bgNeutral from '../../assets/images/bg-neutral.png';
+import bgFlash from '../../assets/images/bg-flash.png';
 import tick from '../../assets/images/tick.svg';
 
 const voteLimit = 5;
@@ -30,7 +30,7 @@ export default class VoteView extends Component {
   }
 
   componentWillMount() {
-    this.context.setBackground(`url(${bgNeutral})`);
+    this.context.setBackground(`url(${bgFlash})`);
 
     get(`${config.api}participant/submissions`)
       .then(({ data }) => {

@@ -14,6 +14,10 @@ function orderByVotes(a, b) {
   return 0;
 }
 
+function hasVotes(submissions) {
+  return submissions.filter(({ votes }) => !!votes).length > 0;
+}
+
 function normaliseSubmissions(submissions, votes) {
   const finalResult = !votes; // if votes is undefined data is from results page
 
@@ -27,7 +31,13 @@ function normaliseSubmissions(submissions, votes) {
     };
   });
 
-  return finalResult ? normalised.sort(orderByVotes) : normalised;
+  const items = finalResult ? normalised.sort(orderByVotes) : normalised;
+
+  if (!hasVotes(items)) {
+    return items.reverse();
+  }
+
+  return items;
 }
 
 const Submissions = (props) => (
