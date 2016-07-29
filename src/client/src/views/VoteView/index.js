@@ -84,7 +84,7 @@ export default class VoteView extends Component {
           icon={tick}
         />
         <TitleCard text="Choose your top five ;-)" />
-        <Submissions onItemClick={this.vote} items={this.state.submissions} votes={this.state.votes} />
+        <Submissions highlightWinner={false} onItemClick={this.vote} items={this.state.submissions} votes={this.state.votes} />
       </span>
     );
   }

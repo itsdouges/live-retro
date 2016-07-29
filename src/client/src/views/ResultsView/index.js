@@ -68,7 +68,7 @@ export default class ResultsView extends Component {
     return (
       <span>
         <TitleCard text={message} />
-        <Submissions items={this.state.submissions} />
+        <Submissions highlightWinner master={this.props.master} items={this.state.submissions} />
       </span>
     );
   }

@@ -18,11 +18,11 @@ function hasVotes(submissions) {
   return submissions.filter(({ votes }) => !!votes).length > 0;
 }
 
-function normaliseSubmissions(submissions, votes) {
+function normaliseSubmissions({ items, votes, master }) {
   const finalResult = !votes; // if votes is undefined data is from results page
 
-  const normalised = Object.keys(submissions).map((key) => {
-    const data = submissions[key];
+  const normalised = Object.keys(items).map((key) => {
+    const data = items[key];
     return {
       text: key,
       mood: data > 0 ? 'positive' : 'negative',
@@ -31,19 +31,20 @@ function normaliseSubmissions(submissions, votes) {
     };
   });
 
-  const items = finalResult ? normalised.sort(orderByVotes) : normalised;
+  const submissions = finalResult ? normalised.sort(orderByVotes) : normalised;
 
-  if (!hasVotes(items)) {
-    return items.reverse();
+  if (master && !hasVotes(submissions)) {
+    return submissions.reverse();
   }
 
-  return items;
+  return submissions;
 }
 
 const Submissions = (props) => (
   <div className={styles.container}>
-    {normaliseSubmissions(props.items, props.votes).map((submission) => (
+    {normaliseSubmissions(props).map((submission, index) => (
       <Submission
+        winner={props.highlightWinner && index === 0}
         onClick={() => props.onItemClick && props.onItemClick(submission.text)}
         key={submission.text}
         data={submission}
@@ -56,6 +57,8 @@ Submissions.prototype.propTypes = {
   items: PropTypes.array,
   onItemClick: PropTypes.func,
   votes: PropTypes.object,
+  master: PropTypes.bool,
+  highlightWinner: PropTypes.bool,
 };
 
 export default Submissions;

@@ -16,6 +16,7 @@ const Submission = (props) => (
 Submission.prototype.propTypes = {
   data: PropTypes.object,
   onClick: PropTypes.func,
+  winner: PropTypes.bool,
 };
 
 export default Submission;
