@@ -23,7 +23,7 @@ export default class MasterView extends Component {
   };
 
   state = {
-    stage: null,
+    stage: Object.keys(stageToRouteMapping)[0],
   };
 
   componentDidMount() {
