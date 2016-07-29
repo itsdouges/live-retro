@@ -62,7 +62,7 @@ export default class MasterView extends Component {
           {Object.keys(stageToRouteMapping).map((stage) => (
             <Button
               key={stage}
-              color="blue"
+              color="#33cac5"
               text={stage}
               enabled={stage !== this.state.stage}
               onClick={() => this.updateServerStage(stage)}
