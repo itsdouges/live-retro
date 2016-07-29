@@ -11,24 +11,22 @@ export default class ResultsView extends Component {
   };
 
   static propTypes = {
+    master: PropTypes.bool,
     location: PropTypes.object,
   };
 
-  constructor() {
-    super();
-    this.state = {
-      submissions: [],
-    };
-  }
+  state = {
+    submissions: [],
+  };
 
   componentWillMount() {
     this.context.setBackground(`url(${bgPositive})`);
 
-    const masterMode = this.props.location.pathname.indexOf('master') > 0;
+    const masterMode = this.props.master;
 
-    const url = masterMode ?
-      `${config.api}master/state` :
-      `${config.api}results`;
+    const url = masterMode
+      ? `${config.api}master/state`
+      : `${config.api}results`;
 
     this.hydrateSubmissions(url);
 
@@ -56,9 +54,14 @@ export default class ResultsView extends Component {
   }
 
   render() {
+    const { submissions } = this.state;
+    const message = Object.keys(submissions).length === 0
+      ? 'Waiting for submissions...'
+      : 'The results are in...';
+
     return (
       <span>
-        <TitleCard text="The results are in..!" />
+        <TitleCard text={message} />
         <Submissions items={this.state.submissions} />
       </span>
     );
