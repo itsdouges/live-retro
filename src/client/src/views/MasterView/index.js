@@ -56,7 +56,10 @@ export default class MasterView extends Component {
     return (
       <span className={styles.container}>
         <div className={styles.contentContainer}>
-          {React.cloneElement(this.props.children, { master: true })}
+          {React.cloneElement(this.props.children, {
+            master: true,
+            stage: this.state.stage,
+          })}
         </div>
         <div className={styles.buttonsContainer}>
           {Object.keys(stageToRouteMapping).map((stage) => (
