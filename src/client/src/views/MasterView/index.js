@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { get } from 'axios';
+import { get, post } from 'axios';
+import Button from '../../components/Button';
 import config from '../../../scripts/config';
 
 import styles from './styles.less';
@@ -8,7 +9,7 @@ const pollInterval = 1000;
 const stageToRouteMapping = {
   submit: '/master/waiting',
   vote: '/master/waiting',
-  result: '/master/results',
+  results: '/master/results',
 };
 
 export default class MasterView extends Component {
@@ -21,10 +22,11 @@ export default class MasterView extends Component {
     router: PropTypes.any,
   };
 
-  constructor() {
-    super();
-    this.state = {};
+  state = {
+    stage: null,
+  };
 
+  componentDidMount() {
     setInterval(() => {
       this.readServerStage();
     }, pollInterval);
@@ -33,12 +35,21 @@ export default class MasterView extends Component {
   readServerStage() {
     get(`${config.api}master/state`)
       .then(({ data }) => {
-        const toRoute = stageToRouteMapping[data.stage];
-
-        if (this.props.location.pathname !== toRoute) {
-          this.context.router.push(toRoute);
-        }
+        this.setState({ stage: data.stage });
+        this.goTo(data.stage);
       });
+  }
+
+  updateServerStage(stage) {
+    post(`${config.api}master/state`, { stage })
+      .then(() => this.goTo(stage));
+  }
+
+  goTo(stage) {
+    const toRoute = stageToRouteMapping[stage];
+    if (this.props.location.pathname !== toRoute) {
+      this.context.router.push(toRoute);
+    }
   }
 
   render() {
@@ -47,9 +58,16 @@ export default class MasterView extends Component {
         <div className={styles.contentContainer}>
           {React.cloneElement(this.props.children, { master: true })}
         </div>
-        <div className={styles.controlsContainer}>
-          nxt
-          prv
+        <div className={styles.buttonsContainer}>
+          {Object.keys(stageToRouteMapping).map((stage) => (
+            <Button
+              key={stage}
+              color="blue"
+              text={stage}
+              enabled={stage !== this.state.stage}
+              onClick={() => this.updateServerStage(stage)}
+            />
+          ))}
         </div>
       </span>
     );

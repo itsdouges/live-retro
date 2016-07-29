@@ -21,6 +21,9 @@ app.use('/master', express.static('src/client/dist/index.html'));
 app.use(express.static('src/client/dist'));
 
 if (process.env.NODE_ENV !== 'production') {
+  app.get('/master/*', (req, res) => {
+    res.redirect('/master');
+  });
   app.get(/\/(?!assets).+/, (req, res) => {
     res.redirect('/');
   });
