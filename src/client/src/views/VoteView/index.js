@@ -80,7 +80,7 @@ export default class VoteView extends Component {
       <span>
         <FullScreenMessage
           background="white"
-          text="Your votes have been submitted" shown={this.state.finishedVoting}
+          text="Thanks for being awesome! Waiting for results.." shown={this.state.finishedVoting}
           icon={tick}
         />
         <TitleCard text="Choose your top five ;-)" />

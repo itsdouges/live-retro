@@ -30,11 +30,11 @@ function getDefaultModules() {
         loader: `style!${loader('css', ...cssLoaderOpts)}!less`,
       },
       {
-        test: /\.(png|jpg|gif|woff|woff2|otf)$/,
+        test: /\.(png|jpg|gif|svg|woff|woff2|otf|eot|ttf)$/,
         loader: 'url-loader?limit=8192',
       },
       {
-        test: /\.(mp4|ogg|svg)$/,
+        test: /\.(mp4|ogg)$/,
         loader: 'file-loader',
       },
     ],

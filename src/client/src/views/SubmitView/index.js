@@ -30,7 +30,7 @@ const defaultState = {
   readyToSubmit: false,
   selectingMood: true,
   submission: '',
-  starterText: 'What feedback do you feel like?',
+  starterText: 'Have your say, pick a mood..',
 };
 
 export default class SubmitView extends Component {
@@ -82,7 +82,7 @@ export default class SubmitView extends Component {
 
     this.setState({
       ...defaultState,
-      starterText: 'Feel like more?',
+      starterText: 'Say more! Else wait a bit..',
     });
     this.setNeutralBackground();
   };
