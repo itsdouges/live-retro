@@ -12,6 +12,7 @@ export default class ResultsView extends Component {
 
   static propTypes = {
     master: PropTypes.bool,
+    stage: PropTypes.string,
     location: PropTypes.object,
   };
 
@@ -53,11 +54,17 @@ export default class ResultsView extends Component {
   }
 
   render() {
-    const { submissions } = this.state;
-    const message = Object.keys(submissions).length === 0
-      ? 'Waiting for submissions...'
-      : 'The results are in...';
-
+    let message;
+    switch (this.props.stage) {
+      case 'vote':
+        message = 'Voting...';
+        break;
+      case 'results':
+        message = 'The results are in!';
+        break;
+      default:
+        message = 'Waiting for submissions...';
+    }
     return (
       <span>
         <TitleCard text={message} />
