@@ -83,7 +83,7 @@ export default class VoteView extends Component {
           text="Your votes have been submitted" shown={this.state.finishedVoting}
           icon={tick}
         />
-        <TitleCard text={`Vote on the top ${voteLimit} topics you want to discuss...`} />
+        <TitleCard text="Choose your top five ;-)" />
         <Submissions onItemClick={this.vote} items={this.state.submissions} votes={this.state.votes} />
       </span>
     );

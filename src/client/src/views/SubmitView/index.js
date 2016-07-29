@@ -88,7 +88,7 @@ export default class SubmitView extends Component {
   };
 
   render() {
-    const titleCard = this.state.selectingMood && <TitleCard text={this.state.starterText} />;
+    const titleCard = this.state.selectingMood && <TitleCard big text={this.state.starterText} />;
     const negativeSize = (this.state.selectingMood && 'big') || (this.state.mood === 'negative' && 'bigger') || 'small';
     const positiveSize = (this.state.selectingMood && 'big') || (this.state.mood === 'positive' && 'bigger') || 'small';
 

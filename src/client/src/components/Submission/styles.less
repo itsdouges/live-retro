@@ -1,5 +1,5 @@
 .container {
-  padding: 20px;
+  padding: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -8,15 +8,21 @@
   transition: background 0.2s;
 }
 
+.container:last-child {
+  border-bottom: 1px solid red;
+}
+
 .votes {
-  width: 50px;
-  height: 50px;
+  width: 37.5px;
+  height: 37.5px;
+  margin-right: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 2px solid white;
   border-radius: 50%;
   flex-shrink: 0;
+  font-size: 0.75em;
   transition: opacity 0.2s;
 }
 
@@ -26,8 +32,9 @@
 }
 
 .text {
-  padding: 0 20px;
+  margin: 0 10px;
   width: 100%;
+  font-size: 0.9em;
   text-align: left;
   overflow: hidden;
 }

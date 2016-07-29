@@ -58,7 +58,7 @@ export default class ResultsView extends Component {
   render() {
     return (
       <span>
-        <TitleCard text="The results are in..." />
+        <TitleCard text="The results are in..!" />
         <Submissions items={this.state.submissions} />
       </span>
     );
