@@ -1,6 +1,10 @@
-import { Component, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { get } from 'axios';
+import config from '../../../scripts/config';
+
 import styles from './styles.less';
 
+const pollInterval = 1000;
 const stageToRouteMapping = {
   submit: '/master/waiting',
   vote: '/master/waiting',
@@ -10,6 +14,7 @@ const stageToRouteMapping = {
 export default class MasterView extends Component {
   static propTypes = {
     children: PropTypes.node,
+    location: PropTypes.object,
   };
 
   static contextTypes = {
@@ -20,23 +25,27 @@ export default class MasterView extends Component {
     super();
     this.state = {};
 
-    this.readServerStage();
+    setInterval(() => {
+      this.readServerStage();
+    }, pollInterval);
   }
 
   readServerStage() {
-    setTimeout(() => {
-      const result = 'submit';
+    get(`${config.api}master/state`)
+      .then(({ data }) => {
+        const toRoute = stageToRouteMapping[data.stage];
 
-      const toRoute = stageToRouteMapping[result];
-      this.context.router.push(toRoute);
-    }, 50);
+        if (this.props.location.pathname !== toRoute) {
+          this.context.router.push(toRoute);
+        }
+      });
   }
 
   render() {
     return (
       <span>
         <div className={styles.contentContainer}>
-          {this.props.children}
+          {React.cloneElement(this.props.children, { master: true })}
         </div>
         <div className={styles.controlsContainer}>
           nxt
