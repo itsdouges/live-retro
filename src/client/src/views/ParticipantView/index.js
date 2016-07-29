@@ -1,4 +1,4 @@
-import { Component, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import config from '../../../scripts/config';
 import { get } from 'axios';
 
@@ -20,6 +20,10 @@ export default class ParticipantView extends Component {
     router: PropTypes.any,
   };
 
+  state = {
+    stage: Object.keys(stageToRouteMapping)[0],
+  };
+
   componentWillMount() {
     this.checkStage();
 
@@ -32,7 +36,7 @@ export default class ParticipantView extends Component {
     get(`${config.api}participant/stage`)
       .then(({ data }) => {
         const toRoute = stageToRouteMapping[data.stage];
-
+        this.setState({ stage: data.stage });
         if (this.props.location.pathname !== toRoute) {
           this.context.router.push(toRoute);
         }
@@ -40,6 +44,12 @@ export default class ParticipantView extends Component {
   }
 
   render() {
-    return <span>{this.props.children}</span>;
+    return (
+      <span>
+        {this.props.children && React.cloneElement(this.props.children, {
+          stage: this.state.stage,
+        })}
+      </span>
+    );
   }
 }
