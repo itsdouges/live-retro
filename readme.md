@@ -10,3 +10,11 @@
   - GET /api/participant/submissions - show submissions
   - POST /api/participant/submissions/vote - vote on a good/bad submission
 * GET /api/results - final results
+
+## Master
+
+https://mi9-retro.herokuapp.com/master/
+
+## Slave
+
+https://mi9-retro.herokuapp.com/
