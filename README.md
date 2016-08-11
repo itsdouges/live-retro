@@ -31,7 +31,7 @@ Master controls the state of the retrospective, participants make submissions, v
 
 ### Waiting for Votes
 
-![Waiting for Votes](http://i.imgur.com/fjVLhZj.png "Waiting for Votes)
+![Waiting for Votes](http://i.imgur.com/fjVLhZj.png "Waiting for Votes")
 
 ### Expose Results
 
